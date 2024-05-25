@@ -28,12 +28,24 @@ namespace kim\present\awaitcomamnd;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\command\utils\InvalidCommandSyntaxException;
+use pocketmine\lang\KnownTranslationFactory;
 use SOFe\AwaitGenerator\Await;
 
 abstract class AwaitCommand extends Command{
 
     public function execute(CommandSender $sender, string $commandLabel, array $args) : void{
-        Await::g2c($this->onExecute($sender, $commandLabel, $args));
+        Await::g2c(
+            $this->onExecute($sender, $commandLabel, $args),
+            null,
+            [InvalidCommandSyntaxException::class => fn() => $this->onInvalidCommandSyntaxException($sender)]
+        );
+    }
+
+    private function onInvalidCommandSyntaxException(CommandSender $sender) : void{
+        $sender->sendMessage(
+            $sender->getLanguage()->translate(KnownTranslationFactory::commands_generic_usage($this->getUsage()))
+        );
     }
 
     abstract public function onExecute(CommandSender $sender, string $commandLabel, array $args) : \Generator;
