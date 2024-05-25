@@ -1,6 +1,6 @@
 ---
 name: await-command
-antigen: kim\present\awaitcommand
+antigen: kim\present\awaitcomamnd
 version: 1.0.0
 api: [ 5.0.0 ]
 author: PresentKim
