@@ -78,6 +78,7 @@ use kim\present\awaitcomamnd\AwaitPluginCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\Plugin;
 
+/** @extends AwaitPluginCommand<TestPLugin> */
 class TestCommand extends AwaitPluginCommand{
     public function __construct(Plugin $plugin){
         parent::__construct($plugin, "test", "test command", "/test usage", ["t"]);

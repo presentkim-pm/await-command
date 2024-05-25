@@ -34,6 +34,7 @@ use SOFe\AwaitGenerator\Await;
 
 abstract class AwaitCommand extends Command{
 
+    /** @param string[] $args */
     public function execute(CommandSender $sender, string $commandLabel, array $args) : void{
         Await::g2c(
             $this->onExecute($sender, $commandLabel, $args),
@@ -48,5 +49,6 @@ abstract class AwaitCommand extends Command{
         );
     }
 
+    /** @param string[] $args */
     abstract public function onExecute(CommandSender $sender, string $commandLabel, array $args) : \Generator;
 }

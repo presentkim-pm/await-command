@@ -29,9 +29,19 @@ namespace kim\present\awaitcomamnd;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginOwned;
 
+/** @phpstan-template TPlugin of Plugin */
 abstract class AwaitPluginCommand extends AwaitCommand implements PluginOwned{
+    /**
+     * @var Plugin
+     * @phpstan-var TPlugin
+     */
     protected Plugin $plugin;
 
+    /**
+     * @phpstan-param TPlugin $plugin
+     *
+     * @param string[]        $aliases
+     */
     public function __construct(
         Plugin $plugin, string $name, string $description = "", string $usageMessage = null, array $aliases = []
     ){
@@ -39,6 +49,7 @@ abstract class AwaitPluginCommand extends AwaitCommand implements PluginOwned{
         $this->plugin = $plugin;
     }
 
+    /** @phpstan-return TPlugin */
     public function getOwningPlugin() : Plugin{
         return $this->plugin;
     }
