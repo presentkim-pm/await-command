@@ -25,19 +25,13 @@
 
 ## About The Project
 
-:heavy_check_mark: Provides util functions for serialize nbt tag
+:heavy_check_mark: Provides generator-base command class for await-generator!
 
-- `kim\present\serializer\nbt\NbtSerializer::toBinary(Tag $tag) : string`
-- `kim\present\serializer\nbt\NbtSerializer::toBase64(Tag $tag) : string`
-- `kim\present\serializer\nbt\NbtSerializer::toHex(Tag $tag) : string`
-- `kim\present\serializer\nbt\NbtSerializer::toSnbt(Tag $tag) : string`
+- `kim\present\awaitcommand\AwaitCommand`
 
-:heavy_check_mark: Provides util function for deserialize nbt tag
+:heavy_check_mark: Provides implementation versions of PluginOwned!
 
-- `kim\present\serializer\nbt\NbtSerializer::fromBinary(string $contents) : Tag`
-- `kim\present\serializer\nbt\NbtSerializer::fromBase64(string $contents) : Tag`
-- `kim\present\serializer\nbt\NbtSerializer::fromHex(string $contents) : Tag`
-- `kim\present\serializer\nbt\NbtSerializer::fromSnbt(string $contents) : Tag`
+- `kim\present\awaitcommand\AwaitPluginCommand`
 
 -----
 
@@ -49,7 +43,51 @@ See [Official Poggit Virion Documentation](https://github.com/poggit/support/blo
 
 ## How to use?
 
-See [Main Document](https://github.com/presentkim-pm/await-command/blob/main/docs/README.md)
+Just extend `AwaitCommand` or `AwaitPluginCommand` instead of `Command`!  
+And implement `onExecute` method with `Generator` return type!
+
+### AwaitCommand
+
+````php
+<?php
+
+use kim\present\awaitcomamnd\AwaitCommand;
+use pocketmine\command\CommandSender;
+use pocketmine\plugin\Plugin;
+
+class TestCommand extends AwaitCommand{
+    public function __construct(){
+        parent::__construct("test", "test command", "/test usage", ["t"]);
+    }
+
+    public function onExecute(CommandSender $sender, string $commandLabel, array $args) : \Generator{
+        /** @var TestObject[] $rank */
+        $test = yield from TestFactory::getTestObject();
+
+        $sender->sendMessage("TestObject: " . $test->getName());
+    }
+}
+````
+
+### AwaitPluginCommand
+
+````php
+<?php
+
+use kim\present\awaitcomamnd\AwaitPluginCommand;
+use pocketmine\command\CommandSender;
+use pocketmine\plugin\Plugin;
+
+class TestCommand extends AwaitPluginCommand{
+    public function __construct(Plugin $plugin){
+        parent::__construct($plugin, "test", "test command", "/test usage", ["t"]);
+    }
+
+    public function onExecute(CommandSender $sender, string $commandLabel, array $args) : \Generator{
+        // ...
+    }
+}
+````
 
 -----
 
