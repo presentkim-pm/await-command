@@ -1,7 +1,7 @@
 ---
 name: await-command
 antigen: kim\present\awaitcomamnd
-version: 1.0.0
+version: 1.0.1
 api: [ 5.0.0 ]
 author: PresentKim
 description: "Provides generator-base command class for await-generator!"
