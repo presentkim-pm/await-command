@@ -34,6 +34,14 @@ use SOFe\AwaitGenerator\Await;
 
 abstract class AwaitCommand extends Command{
 
+    /** @param string[] $aliases */
+    public function __construct(string $name, string $description = "", string $usage = null, array $aliases = []){
+        parent::__construct($name, $description, $usage, $aliases);
+        $this->init();
+    }
+
+    public function init() : void{}
+
     /** @param string[] $args */
     public function execute(CommandSender $sender, string $commandLabel, array $args) : void{
         Await::g2c(

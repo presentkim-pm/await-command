@@ -43,9 +43,9 @@ abstract class AwaitPluginCommand extends AwaitCommand implements PluginOwned{
      * @param string[]        $aliases
      */
     public function __construct(
-        Plugin $plugin, string $name, string $description = "", string $usageMessage = null, array $aliases = []
+        Plugin $plugin, string $name, string $description = "", string $usage = null, array $aliases = []
     ){
-        parent::__construct($name, $description, $usageMessage, $aliases);
+        parent::__construct($name, $description, $usage, $aliases);
         $this->plugin = $plugin;
     }
 
