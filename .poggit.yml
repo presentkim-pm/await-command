@@ -1,0 +1,9 @@
+---
+branches:
+  - main
+projects:
+  await-command:
+    path: ""
+    model: virion
+    type: library
+...
