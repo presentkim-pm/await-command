@@ -24,7 +24,7 @@
 
 declare(strict_types=1);
 
-namespace kim\present\awaitcomamnd;
+namespace kim\present\awaitcommand;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;

@@ -51,7 +51,7 @@ And implement `onExecute` method with `Generator` return type!
 ````php
 <?php
 
-use kim\present\awaitcomamnd\AwaitCommand;
+use kim\present\awaitcommand\AwaitCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\Plugin;
 
@@ -74,7 +74,7 @@ class TestCommand extends AwaitCommand{
 ````php
 <?php
 
-use kim\present\awaitcomamnd\AwaitPluginCommand;
+use kim\present\awaitcommand\AwaitPluginCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\Plugin;
 
