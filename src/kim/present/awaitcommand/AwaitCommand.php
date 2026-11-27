@@ -26,16 +26,25 @@ declare(strict_types=1);
 
 namespace kim\present\awaitcommand;
 
+use Generator;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\lang\KnownTranslationFactory;
+use pocketmine\lang\Translatable;
+use pocketmine\utils\TextFormat;
 use SOFe\AwaitGenerator\Await;
+use Throwable;
 
 abstract class AwaitCommand extends Command{
 
     /** @param string[] $aliases */
-    public function __construct(string $name, string $description = "", string $usage = null, array $aliases = []){
+    public function __construct(
+        string $name,
+        Translatable|string $description = "",
+        Translatable|string|null $usage = null,
+        array $aliases = []
+    ){
         parent::__construct($name, $description, $usage, $aliases);
         $this->init();
     }
@@ -47,7 +56,10 @@ abstract class AwaitCommand extends Command{
         Await::g2c(
             $this->onExecute($sender, $commandLabel, $args),
             null,
-            [InvalidCommandSyntaxException::class => fn() => $this->onInvalidCommandSyntaxException($sender)]
+            [
+                InvalidCommandSyntaxException::class => fn() => $this->onInvalidCommandSyntaxException($sender),
+                "" => fn(Throwable $throwable) => $this->onUnhandledThrowable($sender, $throwable),
+            ]
         );
     }
 
@@ -57,6 +69,15 @@ abstract class AwaitCommand extends Command{
         );
     }
 
+    /**
+     * Any other throwable escaping the generator is logged and reported to the sender, instead of being rethrown
+     * from wherever the generator happened to be resumed (a scheduler task, a callback, ...) where nothing handles it.
+     */
+    private function onUnhandledThrowable(CommandSender $sender, Throwable $throwable) : void{
+        $sender->getServer()->getLogger()->logException($throwable);
+        $sender->sendMessage(TextFormat::RED . "An internal error occurred while attempting to perform this command");
+    }
+
     /** @param string[] $args */
-    abstract public function onExecute(CommandSender $sender, string $commandLabel, array $args) : \Generator;
+    abstract public function onExecute(CommandSender $sender, string $commandLabel, array $args) : Generator;
 }

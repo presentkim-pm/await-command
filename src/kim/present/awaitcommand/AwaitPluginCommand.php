@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace kim\present\awaitcommand;
 
+use pocketmine\lang\Translatable;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginOwned;
 
@@ -43,10 +44,15 @@ abstract class AwaitPluginCommand extends AwaitCommand implements PluginOwned{
      * @param string[]        $aliases
      */
     public function __construct(
-        Plugin $plugin, string $name, string $description = "", string $usage = null, array $aliases = []
+        Plugin $plugin,
+        string $name,
+        Translatable|string $description = "",
+        Translatable|string|null $usage = null,
+        array $aliases = []
     ){
-        parent::__construct($name, $description, $usage, $aliases);
+        // Assigned before the parent constructor so that init() (called by it) can use getOwningPlugin()
         $this->plugin = $plugin;
+        parent::__construct($name, $description, $usage, $aliases);
     }
 
     /** @phpstan-return TPlugin */
